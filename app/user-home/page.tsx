@@ -218,41 +218,7 @@ export default function Component() {
           </div>
           </Link>
           <div className="flex items-center space-x-4">
-            <ModeToggle />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="lg" className="text-black font-bold dark:text-white">
-                  <User className="h-10 w-10" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 text-xl bg-gray-100 dark:bg-gray-900 text-black dark:text-white">
-                <DropdownMenuLabel className="font-lg">My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {user ? (
-                  <>
-                    <DropdownMenuItem>
-                      <a href="/user-info" className="flex items-center space-x-2 font-bold">
-                        <Image src={user.picture ?? ''} alt={user.name ?? 'User'} width={24} height={24} className="rounded-full" />
-                        <span>{user.name}</span>
-                      </a>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <a href="/api/auth/logout" className="font-bold text-lg">
-                        <LogOut className="mr-2 h-4 w-4" />
-                        Logout
-                      </a>
-                    </DropdownMenuItem>
-                  </>
-                ) : (
-                  <DropdownMenuItem>
-                    <a href="/api/auth/login" className="flex items-center font-bold  text-lg ">
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Login
-                    </a>
-                  </DropdownMenuItem>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
+           
           </div>
         </div>
       </header>

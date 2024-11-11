@@ -1,4 +1,3 @@
-// firebaseConfig.js
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue, push, set, remove } from "firebase/database";
 const firebaseConfig = {
@@ -19,7 +18,6 @@ const firebaseConfig = {
   measurementId: "G-R82VJTFMCD"
 }
 
-// Initialize Firebase and Realtime Database
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 

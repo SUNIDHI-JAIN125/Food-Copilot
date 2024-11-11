@@ -9,8 +9,6 @@ import F2 from "@/public/F2.jpg";
 import F3 from "@/public/F3.jpg";
 
 
-import { Coins } from "lucide-react";
-
 type FeatureText = {
   icon: JSX.Element;
   title: string;

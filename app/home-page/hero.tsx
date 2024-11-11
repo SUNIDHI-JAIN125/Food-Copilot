@@ -1,11 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-
-
 import Balancer from "react-wrap-balancer";
-import { LogOut, User } from "lucide-react";
 
 
 import { Section, Container } from "@/components/craft";
@@ -16,17 +11,6 @@ import Logo from "/public/logo.svg";
 import Logo2 from "/public/mealmate.svg";
 
 const Hero = () => {
-    const router = useRouter();
-
-   
-    const user = { name: "Guest User" };
-
-    useEffect(() => {
-       
-        if (!user) {
-            router.push("/user-home");
-        }
-    }, [user, router]);
 
     return (
         <Section>
@@ -56,8 +40,7 @@ const Hero = () => {
                 <div className="not-prose mt-6 flex gap-2 md:mt-12 bg-black text-white rounded-xl p-3">
                     <Button variant="ghost" asChild>
                         <a href="/user-home" className="text-xl">
-                            <LogOut className="mr-2" />
-                            Go to Dashboard
+                         Go to Dashboard
                         </a>
                     </Button>
                 </div>
