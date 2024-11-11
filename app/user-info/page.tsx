@@ -19,7 +19,7 @@ export default function UserInfo() {
   ])
   const [favoriteRecipes, setFavoriteRecipes] = useState([
     { id: 1, name: "French Toast" },
-    { id: 2, name: "Scrambled Eggs" }
+    { id: 2, name: "Sandwitch" }
   ])
   const [dietaryRestrictions, setDietaryRestrictions] = useState("No restrictions set.")
 

@@ -4,6 +4,7 @@ import * as React from "react";
 import { LogOut, RefreshCw, User, Plus, Trash } from "lucide-react";
 import Image from "next/image";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/modetoggle";
 import { GoogleGenerativeAI } from "@google/generative-ai";
@@ -104,7 +105,7 @@ export default function Component() {
               id: key,
               ...latestData[key],
               }))
-            : [{ id: "1", name: "Chicken", quantity: 1, calorie: 1000 }];
+            : [{ id: "1", name: "Dosa", quantity: 1, calorie: 1000 }];
           setFoodItems(foodItemsWithIds);
         }
       }
@@ -141,7 +142,7 @@ export default function Component() {
     const ingredients = foodItems.map((item) => item.name).join(',');
     try {
       const response = await axios.get(`https://api.spoonacular.com/recipes/findByIngredients`, {
-        params: { ingredients, apiKey, number: 5, ranking: 2, ignorePantry: true },
+        params: { ingredients, apiKey, number: 26, ranking: 2, ignorePantry: true },
       });
       const recipeData: Recipe[] = response.data.map((item: unknown) => {
         const { id, title, image } = item as { id: number; title: string; image: string };
@@ -209,31 +210,34 @@ export default function Component() {
   return (
     <div className="flex min-h-screen flex-col bg-white dark:bg-black text-black dark:text-white">
       <header className="sticky top-0 z-50 w-full border-b bg-gray-100 dark:bg-gray-900 shadow-sm">
-        <div className="container flex h-16 items-center justify-between px-4">
-          <div className="flex items-center space-x-4">
+        <div className="container flex h-32 items-center justify-between px-4">
+        <Link href="/" aria-label="Home">
+          <div className="flex items-center  space-x-10">
             <Image src={logo} alt="Company Logo" width={100} height={100} />
+          <h1 className="text-blue-800 font-sans  text-5xl font-medium">Food Copilot</h1>
           </div>
+          </Link>
           <div className="flex items-center space-x-4">
             <ModeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-black dark:text-white">
-                  <User className="h-5 w-5" />
+                <Button variant="ghost" size="lg" className="text-black font-bold dark:text-white">
+                  <User className="h-10 w-10" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 bg-gray-100 dark:bg-gray-900 text-black dark:text-white">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuContent align="end" className="w-56 text-xl bg-gray-100 dark:bg-gray-900 text-black dark:text-white">
+                <DropdownMenuLabel className="font-lg">My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {user ? (
                   <>
                     <DropdownMenuItem>
-                      <a href="/user-info" className="flex items-center space-x-2">
+                      <a href="/user-info" className="flex items-center space-x-2 font-bold">
                         <Image src={user.picture ?? ''} alt={user.name ?? 'User'} width={24} height={24} className="rounded-full" />
                         <span>{user.name}</span>
                       </a>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <a href="/api/auth/logout">
+                      <a href="/api/auth/logout" className="font-bold text-lg">
                         <LogOut className="mr-2 h-4 w-4" />
                         Logout
                       </a>
@@ -241,7 +245,7 @@ export default function Component() {
                   </>
                 ) : (
                   <DropdownMenuItem>
-                    <a href="/api/auth/login" className="flex items-center">
+                    <a href="/api/auth/login" className="flex items-center font-bold  text-lg ">
                       <LogOut className="mr-2 h-4 w-4" />
                       Login
                     </a>
@@ -252,58 +256,56 @@ export default function Component() {
           </div>
         </div>
       </header>
-      <main className="flex-1 container py-8 px-4 space-y-6 mx-auto max-w-7xl">
+      <main className="flex-1 container py-10 px-4 space-y-10 mx-auto max-w-7xl">
         <Tabs defaultValue="dashboard" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 lg:grid-cols-3 h-12">
-        <TabsTrigger value="dashboard" className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">Dashboard</TabsTrigger>
-        <TabsTrigger value="recipes" className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">Recipes</TabsTrigger>
-        <TabsTrigger value="schedules" className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">Schedules</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 lg:grid-cols-3 h-12  bg-gray-200 font-mono">
+        <TabsTrigger value="dashboard" className="text-gray-700 dark:text-gray-300 text-xl font-semiboldf sm:text-base"><p className="text-xl font-semibold">Dashboard</p></TabsTrigger>
+        <TabsTrigger value="recipes" className="text-gray-700 dark:text-gray-300 text-xl sm:text-base"> <p className="text-xl font-semibold">Recipes</p></TabsTrigger>
+        <TabsTrigger value="schedules" className="text-gray-700 dark:text-gray-300 text-sm sm:text-base"><p className="text-xl font-semibold">Schedules</p></TabsTrigger>
           </TabsList>
           <TabsContent value="dashboard" className="space-y-6 px-0">
-        <div className="flex items-center justify-between p-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-black dark:text-white">Food Detection Dashboard</h2>
-          <Button variant="outline" size="icon" className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
-            <RefreshCw className="h-4 w-4 sm:h-5 sm:w-5" />
-          </Button>
+        <div className="flex items-center justify-between p-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-black font-sans dark:text-white">Food Ingredients Available</h2>
+        
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-            <thead className="bg-gray-50 dark:bg-gray-800">
-          <tr>
-            <th scope="col" className="px-3 py-3 text-left text-xs font-bold text-gray-900 dark:text-gray-300 uppercase tracking-wider">No.</th>
-            <th scope="col" className="px-3 py-3 text-left text-xs font-bold text-gray-900 dark:text-gray-300 uppercase tracking-wider">Name</th>
-            <th scope="col" className="px-3 py-3 text-left text-xs font-bold text-gray-900 dark:text-gray-300 uppercase tracking-wider">Qty</th>
-            <th scope="col" className="px-3 py-3 text-left text-xs font-bold text-gray-900 dark:text-gray-300 uppercase tracking-wider">Cal</th>
+          <table className="min-w-full  divide-solid divide-gray-600 dark:divide-gray-700">
+            <thead className="bg-gray-300 dark:bg-gray-800">
+          <tr className="border-black border-2 bg-gray-200">
+            <th scope="col" className="px-3  text-center py-3  text-lg font-bold text-gray-900 dark:text-gray-300 uppercase tracking-wider">No.</th>
+            <th scope="col" className="px-3   text-center py-3 text-lg font-bold text-gray-900 dark:text-gray-300 uppercase tracking-wider">Name</th>
+            <th scope="col" className="px-3 py-3 text-center text-lg font-bold text-gray-900 dark:text-gray-300 uppercase tracking-wider">Qty</th>
+            <th scope="col" className="px-3 py-3 text-center text-lg font-bold text-gray-900 dark:text-gray-300 uppercase tracking-wider">Cal</th>
           </tr>
             </thead>
-            <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+            <tbody className="bg-white dark:bg-gray-900 divide-y border-2 border-black divide-gray-200 dark:divide-gray-700">
           {foodItems.map((item, index) => (
-            <tr key={index}>
-              <td className="px-3 py-4 whitespace-nowrap text-sm font-medium text-black-500 dark:text-gray-300">{index + 1}</td>
-              <td className="px-3 py-4 whitespace-nowrap text-sm font-medium text-black-500 dark:text-gray-300">{item.name}</td>
-              <td className="px-3 py-4 whitespace-nowrap text-sm font-medium text-black-500 dark:text-gray-300">{item.quantity}</td>
-              <td className="px-3 py-4 whitespace-nowrap text-sm font-medium text-black-500 dark:text-gray-300">{item.calorie}</td>
+            <tr key={index} className="border-2 border-black">
+              <td className="px-3  text-center py-4 whitespace-nowrap text-lg  border-2 border-black font-medium text-black-500 dark:text-gray-300">{index + 1}</td>
+              <td className="px-3 py-4  text-center whitespace-nowrap text-lg border-2 border-black font-medium text-black-500 dark:text-gray-300">{item.name}</td>
+              <td className="px-3 py-4   text-center whitespace-nowrap text-lg  border-2 border-black font-medium text-black-500 dark:text-gray-300">{item.quantity}</td>
+              <td className="px-3 py-4  text-center whitespace-nowrap text-lg border-2 border-black font-medium text-black-500 dark:text-gray-300">{item.calorie}</td>
             </tr>
           ))}
             </tbody>
           </table>
         </div>
           </TabsContent>
-          <TabsContent value="schedules" className="space-y-6 pt-8">
+          <TabsContent value="schedules" className="space-y-6  pt-8">
         <Card className="bg-gray-100 dark:bg-gray-800 mx-auto w-full lg:w-3/4">
           <CardHeader>
-            <CardTitle className="text-black dark:text-white">Schedules</CardTitle>
-            <CardDescription className="text-gray-600 dark:text-gray-400">Edit Your Schedules</CardDescription>
+            <CardTitle className="text-black text-xl font-sans dark:text-white">Schedules</CardTitle>
+            <CardDescription className="text-gray-600 text-lg dark:text-gray-400">Edit Your Schedules</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <div className="space-y-10">
           <div className="flex flex-wrap justify-center gap-2 mb-4">
             {dayOrder.map((d) => (
               <Button
             key={d}
             variant={day === d ? "default" : "outline"}
             onClick={() => setDay(d)}
-            className={`text-xs sm:text-sm text-gray-700 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-500 ${day === d ? "bg-gray-300 dark:bg-gray-700" : ""}`}
+            className={`text-lg   text-gray-700 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-500 ${day === d ? "bg-gray-300 dark:bg-gray-700" : ""}`}
               >
             {d.slice(0, 3)}
               </Button>
@@ -312,14 +314,14 @@ export default function Component() {
           <Button
                 variant="outline"
                 onClick={async () => {
-                  const genAI = new GoogleGenerativeAI('AIzaSyBCag4JyNXDZDsZhUdltv-ftc-0Jfcy7GM');
+                  const genAI = new GoogleGenerativeAI('AIzaSyBF_DVdAwR6O69qaO42uXYUxa0nqo_4I8Q');
                   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
                   try {
                     const daySchedule = schedule.filter((class_) => class_.day === day);
                     const response = await model.generateContent(
                       `Based on the following schedule for ${day}: ${daySchedule.map(class_ => `${class_.className} from ${class_.startTime} to ${class_.endTime}`).join(', ')}, suggest 4 meal times and meals that can be prepared using some of these available food items: ${foodItems.map(item => item.name).join(', ')}.
                       within that time, make sure not to class the food time with any class or activity time 
-                      Please format the suggestions in HTML bullet points. if my schedule is empty or seems i am free, add some sugegstion, also don't generate any extra information, just give me the suggested recipe.`
+                     `
                     );
                     const suggestedText = response.response.text();
                     const parser = new DOMParser();
@@ -329,7 +331,7 @@ export default function Component() {
                     console.error("Error fetching meal suggestions:", error);
                   }
                 }}
-                className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white"
+                className="text-gray-700 text-lg  p-4 dark:text-gray-300 hover:text-black dark:hover:text-white"
               >
                 Meal Suggestions
               </Button>
@@ -345,26 +347,26 @@ export default function Component() {
                 <div className="font-semibold text-black dark:text-white">
               {class_.className}
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-lg text-gray-600 dark:text-gray-400">
               {class_.startTime} - {class_.endTime}
                 </div>
               </div>
               <Button
                 variant="ghost"
-                size="icon"
+                size="default"
                 onClick={() => handleDeleteClass(class_.id)}
                 className="text-gray-600 dark:text-gray-400"
               >
-                <Trash className="h-4 w-4" />
+                <Trash className="h-8 w-8" />
               </Button>
             </div>
               ))}
           </div>
-          <div className="flex flex-col sm:flex-row justify-between space-y-2 sm:space-y-0 sm:space-x-4">
+          <div className="flex flex-col mt-6 sm:flex-row justify-between space-y-2 sm:space-y-0 sm:space-x-4">
             <Dialog>
               <DialogTrigger asChild>
-            <Button variant="outline" className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white w-full sm:w-auto">
-              <Plus className="mr-2 h-4 w-4" /> Add Class
+            <Button variant="outline" className="text-gray-700 text-lg dark:text-gray-300 hover:text-black dark:hover:text-white w-full sm:w-auto">
+              <Plus className="mr-2 h-8 w-8 font-medium text-black text-lg" /> Add Class
             </Button>
               </DialogTrigger>
               <DialogContent className="bg-white dark:bg-black text-black dark:text-white">
@@ -373,11 +375,11 @@ export default function Component() {
             </DialogHeader>
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="class-name" className="text-gray-700 dark:text-gray-300">Class Name</Label>
+                <Label htmlFor="class-name" className="text-gray-700 mt-4 text-lg dark:text-gray-300">Class Name</Label>
                 <Input id="class-name" value={className} onChange={(e) => setClassName(e.target.value)} placeholder="Enter class name" className="bg-white dark:bg-black text-black dark:text-white" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="day" className="text-gray-700 dark:text-gray-300">Day</Label>
+                <Label htmlFor="day" className="text-gray-700 text-lg  dark:text-gray-300">Day</Label>
                 <Select onValueChange={(value) => setDay(value)}>
               <SelectTrigger className="bg-white dark:bg-black text-black dark:text-white">
                 <SelectValue placeholder="Select day" />
@@ -388,34 +390,34 @@ export default function Component() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="start-time" className="text-gray-700 dark:text-gray-300">Start Time</Label>
+                <Label htmlFor="start-time" className="text-gray-700 text-lg dark:text-gray-300">Start Time</Label>
                 <Input id="start-time" type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} placeholder="Enter start time" className="bg-white dark:bg-black text-black dark:text-white" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="end-time" className="text-gray-700 dark:text-gray-300">End Time</Label>
+                <Label htmlFor="end-time" className="text-gray-700 text-lg dark:text-gray-300">End Time</Label>
                 <Input id="end-time" type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} placeholder="Enter end time" className="bg-white dark:bg-black text-black dark:text-white" />
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={handleAddClass} className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white">Add Class</Button>
+              <Button variant="outline" onClick={handleAddClass} className="text-gray-800 dark:text-gray-300 text-lg border-black  hover:text-black dark:hover:text-white">Add Class</Button>
             </DialogFooter>
               </DialogContent>
             </Dialog>
-            <Button variant="outline" onClick={() => setIsRecipeDialogOpen(true)} className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white w-full sm:w-auto">
+            <Button variant="outline" onClick={() => setIsRecipeDialogOpen(true)} className="text-gray-700 dark:text-gray-300  hover:text-black text-lg  dark:hover:text-white w-full sm:w-auto">
               Check Food Recipe
             </Button>
           </div>
           <Dialog open={isRecipeDialogOpen} onOpenChange={setIsRecipeDialogOpen}>
             <DialogContent className="bg-white dark:bg-black text-black dark:text-white">
               <DialogHeader>
-            <DialogTitle>Prepare a Recipe</DialogTitle>
+            <DialogTitle className="text-lg ">Prepare a Recipe</DialogTitle>
               </DialogHeader>
               <div className="space-y-4">
-            <Label htmlFor="prep-time" className="text-gray-700 dark:text-gray-300">Available Preparation Time (minutes)</Label>
-            <Input id="prep-time" type="number" value={availableTime} onChange={(e) => setAvailableTime(e.target.value)} placeholder="Enter time in minutes" className="bg-white dark:bg-black text-black dark:text-white" />
+            <Label htmlFor="prep-time" className="text-gray-700 text-lg dark:text-gray-300">Available Preparation Time (minutes)</Label>
+            <Input id="prep-time" type="number" value={availableTime} onChange={(e) => setAvailableTime(e.target.value)} placeholder="Enter time in minutes" className="bg-white text-lg dark:bg-black text-black dark:text-white" />
               </div>
               <DialogFooter>
-            <Button variant="outline" onClick={handlePrepareRecipe} className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white">Generate Recipe</Button>
+            <Button variant="outline" onClick={handlePrepareRecipe} className="text-gray-800 dark:text-gray-300 text-md border-black  hover:text-black dark:hover:text-white">Generate Recipe</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -423,13 +425,13 @@ export default function Component() {
             <Dialog open={true} onOpenChange={() => setSuggestedRecipe("")}>
               <DialogContent className="bg-white dark:bg-black text-black dark:text-white max-h-[80vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Suggested Recipe</DialogTitle>
+              <DialogTitle className="m-2 underline  text-xl  justify-center items-center text-center ">Suggested Recipe</DialogTitle>
             </DialogHeader>
-            <div className="space-y-4">
-              <p>{suggestedRecipe}</p>
+            <div className="space-y-6">
+              <p className="font-serif text-lg font-medium">{suggestedRecipe}</p>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setSuggestedRecipe("")} className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white">Close</Button>
+              <Button variant="outline" onClick={() => setSuggestedRecipe("")} className="text-gray-900 dark:text-gray-300 hover:text-black  border-black dark:hover:text-white text-lg ">Close</Button>
             </DialogFooter>
               </DialogContent>
             </Dialog>
@@ -438,17 +440,17 @@ export default function Component() {
           </CardContent>
         </Card>
           </TabsContent>
-          <TabsContent value="recipes" className="space-y-6">
-        <div className="flex items-center justify-between p-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-black dark:text-white">Recipe Suggestions</h2>
+          <TabsContent value="recipes" className="space-y-10">
+        <div className="flex items-center justify-between pt-10">
+          <h2 className="text-xl font-sans sm:text-2xl font-bold text-black dark:text-white">Recipe Suggestions</h2>
           <Button variant="outline" onClick={fetchRecipes} className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white p-2">
-            <span className="hidden sm:inline">Generate New Recipes</span>
+            <span className="hidden text-lg p-2 font-serif font-semibold sm:inline">Generate New Recipes</span>
             <RefreshCw className="h-4 w-4 sm:ml-2" />
           </Button>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
           {recipes.map((recipe) => (
-            <Card key={recipe.id} className="bg-gray-100 dark:bg-gray-800 flex flex-col">
+            <Card key={recipe.id} className=" bg-gray-200 dark:bg-gray-800 flex flex-col">
           <div className="relative pt-[56.25%]">
             <Image 
               alt={recipe.title} 
@@ -458,20 +460,20 @@ export default function Component() {
               className="rounded-t-lg"
             />
           </div>
-          <div className="p-4 flex-grow flex flex-col justify-between">
-            <CardTitle className="text-black font-medium dark:text-white text-lg mb-2">{recipe.title}</CardTitle>
-            <Button variant="outline" onClick={() => handleViewRecipe(recipe.id)} className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white mt-2">View Recipe</Button>
+          <div className="p-4 flex-grow flex flex-col justify-between mt-4">
+            <CardTitle className="text-black font-medium font-mono  dark:text-white text-xl mb-2">{recipe.title}</CardTitle>
+            <Button variant="outline" onClick={() => handleViewRecipe(recipe.id)} className="text-gray-800 dark:text-gray-300 hover:text-black mt-6 w-max border-2 border-gray-800 justify-center  items-center text-bold text-lg dark:hover:text-white font-sans ">View Recipe</Button>
           </div>
             </Card>
           ))}
         </div>
         {isModalOpen && selectedRecipe && (
           <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-            <DialogContent className="bg-white dark:bg-black text-black dark:text-white max-w-3xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="bg-white dark:bg-black text-black dark:text-white max-w-3xl max-h-[100vh] overflow-y-auto mt-3">
           <DialogHeader>
             <DialogTitle>{selectedRecipe.title}</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4">
+          <div className="space-y-8">
             <div className="relative pt-[56.25%]">
               <Image 
             alt={selectedRecipe.title} 
@@ -484,7 +486,7 @@ export default function Component() {
             <div dangerouslySetInnerHTML={{ __html: selectedRecipe.instructions }} />
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsModalOpen(false)} className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white">Close</Button>
+            <Button variant="outline" onClick={() => setIsModalOpen(false)} className="text-gray-800 dark:text-gray-300 text-lg  border-black  hover:text-black dark:hover:text-white">Close</Button>
           </DialogFooter>
             </DialogContent>
           </Dialog>

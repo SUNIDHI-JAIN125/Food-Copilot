@@ -17,7 +17,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "mealmate",
+  title: "food-copilot",
   description: "your meal planning companion",
 };
 

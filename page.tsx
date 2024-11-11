@@ -1,6 +1,6 @@
 import Feature from "@/app/home-page/features"
 import Hero from "@/app/home-page/hero"
-import { Container, Main, Section } from "@/components/craft" // Update this import to the correct path
+import { Container, Main, Section } from "@/components/craft"
 import Footer from "@/app/home-page/footer"
 
 export default function Page() {
