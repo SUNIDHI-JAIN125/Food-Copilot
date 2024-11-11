@@ -1,12 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { LogOut, RefreshCw, User, Plus, Trash } from "lucide-react";
+import {RefreshCw, Plus, Trash } from "lucide-react";
 import Image from "next/image";
-import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/ui/modetoggle";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import axios from "axios";
 import logo from "/public/logo.svg";
@@ -19,14 +17,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -75,7 +65,7 @@ interface RecipeDetails {
 }
 
 export default function Component() {
-  const { user } = useUser();
+  
   const [foodItems, setFoodItems] = React.useState<FoodItem[]>([]);
   const [schedule, setSchedule] = React.useState<ScheduleItem[]>([]);
   const [className, setClassName] = React.useState("");
